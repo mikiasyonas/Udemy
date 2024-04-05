@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/udemy/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/udemy/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/udemy",
+  "projects": {
+    "udemy": {
+      "type": "application",
+      "root": "apps/udemy",
+      "entryFile": "main",
+      "sourceRoot": "apps/udemy/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/udemy/tsconfig.app.json"
+      }
+    },
+    "course": {
+      "type": "application",
+      "root": "apps/course",
+      "entryFile": "main",
+      "sourceRoot": "apps/course/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/course/tsconfig.app.json"
+      }
+    }
   }
 }
