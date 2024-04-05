@@ -1,0 +1,12 @@
+node_modules
+dist
+dist.io
+.eslintrc.js
+.prettierrc
+README.md
+npm-debug.log
+Dockerfile
+.git
+.gitignore
+*.md
+*.env
