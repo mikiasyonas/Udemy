@@ -5,6 +5,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install -g && npm install
+RUN npm install -g @nestjs/cli
 
 COPY . .
 
@@ -24,6 +25,5 @@ RUN npm install --only=production
 COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
-COPY --from=development /usr/src/app/package.json ./package.json
 
 CMD [ "node", "dist/apps/course/main" ]
