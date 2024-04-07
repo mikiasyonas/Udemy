@@ -14,6 +14,7 @@ import * as Joi from 'joi';
         RABBIT_MQ_URI: Joi.string().required(),
         RABBIT_MQ_BILLING_QUEUE: Joi.string().required(),
       }),
+      envFilePath: './apps/billing/.env',
     }),
   ],
   controllers: [BillingController],

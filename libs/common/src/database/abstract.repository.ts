@@ -1,6 +1,13 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import { AbstractDocument } from './abstract.schema';
-import { Connection, FilterQuery, Model, Types, UpdateQuery } from 'mongoose';
+import {
+  Connection,
+  FilterQuery,
+  Model,
+  SaveOptions,
+  Types,
+  UpdateQuery,
+} from 'mongoose';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   protected readonly logger: Logger;
@@ -12,13 +19,16 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     this.logger = new Logger(model.modelName);
   }
 
-  async create(document: Omit<TDocument, '_id'>): Promise<TDocument> {
+  async create(
+    document: Omit<TDocument, '_id'>,
+    options?: SaveOptions,
+  ): Promise<TDocument> {
     const createdDocument = new this.model({
       ...document,
       _id: new Types.ObjectId(),
     });
 
-    const savedDocument = await createdDocument.save();
+    const savedDocument = await createdDocument.save(options);
     return savedDocument.toJSON() as unknown as TDocument;
   }
 
