@@ -24,11 +24,11 @@ export class AuthService {
       throw new UnauthorizedException('User not found with this email');
     }
 
-    // const passwordValid = await bcryptjs.compare(password, user.password);
+    const passwordValid = await bcryptjs.compare(password, user.password);
 
-    // if (!passwordValid) {
-    //   throw new UnauthorizedException('Invalid credentials');
-    // }
+    if (!passwordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
 
     return user;
   }
