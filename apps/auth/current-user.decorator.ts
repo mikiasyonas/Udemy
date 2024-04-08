@@ -5,5 +5,9 @@ export const CurrentUser = createParamDecorator(
     if (context.getType() === 'http') {
       return context.switchToHttp().getRequest().user;
     }
+
+    if (context.getType() === 'rpc') {
+      return context.switchToRpc().getData().user;
+    }
   },
 );

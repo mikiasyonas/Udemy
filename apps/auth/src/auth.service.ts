@@ -4,6 +4,7 @@ import { UserService } from './user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcryptjs from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -13,9 +14,6 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
-  getHello(): string {
-    return 'Hello World!';
-  }
 
   async validate(email: string, password: string): Promise<User> | null {
     const user = await this.userService.findByEmail(email);
@@ -33,17 +31,21 @@ export class AuthService {
     return user;
   }
 
-  async login(user: User): Promise<{ access_token: string }> {
+  async login(user: User, response: Response) {
     const payload = {
-      email: user.email,
-      sub: user._id,
+      userId: user._id,
     };
 
-    const access_token = await this.jwtService.sign(payload);
+    const token = await this.jwtService.sign(payload);
+    const expires = new Date();
+    expires.setSeconds(
+      expires.getSeconds() + this.configService.get('JWT_EXPIRATION') || 36000,
+    );
 
-    return {
-      access_token,
-    };
+    response.cookie('Authentication', token, {
+      httpOnly: true,
+      expires,
+    });
   }
 
   async verify(token: string): Promise<User> {
@@ -58,5 +60,12 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  logout(response: Response) {
+    response.cookie('Authentication', '', {
+      httpOnly: true,
+      expires: new Date(),
+    });
   }
 }

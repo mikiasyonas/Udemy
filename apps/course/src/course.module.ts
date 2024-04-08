@@ -4,7 +4,7 @@ import { CourseService } from './course.service';
 import { ConfigModule } from '@nestjs/config';
 
 import * as Joi from 'joi';
-import { DatabaseModule, RmqModule } from '@app/common';
+import { AuthModule, DatabaseModule, RmqModule } from '@app/common';
 import { CourseRepository } from './course.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Course, CourseSchema } from './schemas/course.schema';
@@ -30,6 +30,7 @@ import { BILLING_SERVICE } from './constants/services';
     RmqModule.register({
       name: BILLING_SERVICE,
     }),
+    AuthModule,
   ],
   controllers: [CourseController],
   providers: [CourseService, CourseRepository],
