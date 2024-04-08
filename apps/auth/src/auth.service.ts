@@ -46,6 +46,8 @@ export class AuthService {
       httpOnly: true,
       expires,
     });
+
+    return user;
   }
 
   async verify(token: string): Promise<User> {

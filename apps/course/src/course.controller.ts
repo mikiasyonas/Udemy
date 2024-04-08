@@ -11,7 +11,10 @@ export class CourseController {
   @UseGuards(JwtAuthGuard)
   async createCourse(@Body() request: CreateCourseDto, @Req() req: any) {
     console.log(req.user);
-    return this.courseService.createCourse(request);
+    return this.courseService.createCourse(
+      request,
+      req.cookies?.Authentication,
+    );
   }
 
   @Get()

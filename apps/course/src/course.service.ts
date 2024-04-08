@@ -12,7 +12,7 @@ export class CourseService {
     private readonly courseRepository: CourseRepository,
     @Inject(BILLING_SERVICE) private billingClient: ClientProxy,
   ) {}
-  async createCourse(request: CreateCourseDto) {
+  async createCourse(request: CreateCourseDto, authentication: string) {
     // const session = await this.courseRepository.startTransaction();
 
     try {
@@ -22,7 +22,10 @@ export class CourseService {
       );
       this.logger.log('Course Created...', course);
       await lastValueFrom(
-        this.billingClient.emit('course_created', { request }),
+        this.billingClient.emit('course_created', {
+          request,
+          Authentication: authentication,
+        }),
       );
 
       // await session.commitTransaction();
