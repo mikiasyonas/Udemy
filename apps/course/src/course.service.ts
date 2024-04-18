@@ -12,27 +12,17 @@ export class CourseService {
     private readonly courseRepository: CourseRepository,
     @Inject(BILLING_SERVICE) private billingClient: ClientProxy,
   ) {}
-  async createCourse(request: CreateCourseDto, authentication: string) {
-    // const session = await this.courseRepository.startTransaction();
-
+  async createCourse(request: CreateCourseDto) {
     try {
-      const course = await this.courseRepository.create(
-        request,
-        // { session }
-      );
+      const course = await this.courseRepository.create(request);
       this.logger.log('Course Created...', course);
       await lastValueFrom(
         this.billingClient.emit('course_created', {
           request,
-          Authentication: authentication,
         }),
       );
-
-      // await session.commitTransaction();
       return course;
     } catch (err) {
-      // await session.abortTransaction();
-      // this.logger.log('Error in course creation', err);
       throw err;
     }
   }
