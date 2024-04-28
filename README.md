@@ -1,6 +1,6 @@
 ## Description
 
-Just a simple project to dive into microservices using [Nest](https://github.com/nestjs/nest) framework
+Just a simple Udemy clone project to dive into microservices using [Nest](https://github.com/nestjs/nest) framework
 
 ## Installation
 
